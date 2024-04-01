@@ -34,14 +34,33 @@ def printMatrix(matrix, words, files):
             print(matrix[i][j], end='\t\t')
         print()
 
-def andQuery(w1, w2, matrix, words, files):
-    l1 = matrix[words.index(w1)]
-    l2 = matrix[words.index(w2)]
-    l1 = bin(int(''.join(map(str, l1)), 2))
-    print(l1)
+def andQuery(w1, w2, matrix, words):
+    try:
+        l1 = matrix[words.index(w1)]
+        l1 = int(''.join(map(str, l1)), 2)
+    except ValueError:
+        return -1
+    try:
+        l2 = matrix[words.index(w2)]
+        l2 = int(''.join(map(str, l2)), 2)
+    except ValueError:
+        return -2
+    return bin(l1 & l2)[2:]
 
-def orQuery(w1, w2, matrix, words, files):
-    pass
+def orQuery(w1, w2, matrix, words):
+    try:
+        l1 = matrix[words.index(w1)]
+        l1 = int(''.join(map(str, l1)), 2)
+    except ValueError:
+        print(f'{w1} Not Found')
+        l1 = 0
+    try:
+        l2 = matrix[words.index(w2)]
+        l2 = int(''.join(map(str, l2)), 2)
+    except ValueError:
+        print(f'{w2} Not Found')
+        l2 = 0
+    return bin(l1 | l2)[2:]
 
 def notQuery():
     pass
@@ -49,14 +68,38 @@ def notQuery():
 if __name__ == '__main__':
     files = getFiles()
     matrix, words = createMatrix(files)
+
     # printMatrix(matrix, words, files)
-    
-    print(words)
+    # print(words)
+
     query = input('Enter query: ').split()
+    query[0] = query[0].lower()
+    query[1] = query[1].upper()
+    query[2] = query[2].lower()
+
     if query[1] == 'AND':
-        ans = andQuery(query[0], query[2], matrix, words, files)
+        ans = andQuery(query[0], query[2], matrix, words)
+        # print(ans)
+        if ans == -1:
+            print(f'{query[0]} Not Found.')
+        elif ans == -2:
+            print(f'{query[2]} Not Found.')
+        elif ans == '0':
+            print(f'{query[0]} AND {query[2]} Not Available.')
+        else:
+            print(f'{query[0]} AND {query[2]} are Available in :')
+            for i in range(len(ans)-1, -1, -1):
+                if ans[i] == '1':
+                    print(files[i])
     elif query[1] == 'OR':
-        ans = orQuery(query[0], query[2], matrix, words, files)
+        ans = orQuery(query[0], query[2], matrix, words)
+        if ans == '0':
+            print(f'{query[0]} OR {query[2]} Not Available.')
+        else:
+            print(f'{query[0]} OR {query[2]} are Available in :')
+            for i in range(len(ans)-1, -1, -1):
+                if ans[i] == '1':
+                    print(files[i])
     # elif query[1] == 'NOT':
     #     ans = notQuery()
     else:
