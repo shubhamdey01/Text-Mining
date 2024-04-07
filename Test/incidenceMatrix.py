@@ -88,7 +88,7 @@ if __name__ == '__main__':
             print(f'{query[0]} AND {query[2]} Not Available.')
         else:
             print(f'{query[0]} AND {query[2]} are Available in :')
-            for i in range(len(ans)-1, -1, -1):
+            for i in range(-1, -(len(ans)+1), -1):
                 if ans[i] == '1':
                     print(files[i])
     elif query[1] == 'OR':
@@ -97,7 +97,7 @@ if __name__ == '__main__':
             print(f'{query[0]} OR {query[2]} Not Available.')
         else:
             print(f'{query[0]} OR {query[2]} are Available in :')
-            for i in range(len(ans)-1, -1, -1):
+            for i in range(-1, -(len(ans)+1), -1):
                 if ans[i] == '1':
                     print(files[i])
     # elif query[1] == 'NOT':
