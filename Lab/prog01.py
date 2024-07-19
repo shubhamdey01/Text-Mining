@@ -1,7 +1,7 @@
-from pypdf import PdfReader
-from docx import Document
+# read from a '.txt' file and count the number of sentences, words, and characters in the file.
 
-def countLinesText(file):
+# count no. of sentences
+def countLines(file):
     f = open(file, 'r')
     dat = f.read().split('.')
     f.close()
@@ -9,7 +9,8 @@ def countLinesText(file):
     count = len(dat)
     return count
 
-def countWordsText(file):
+# count no. of words
+def countWords(file):
     f = open(file, 'r')
     count = 0
     line = f.readline()
@@ -19,7 +20,8 @@ def countWordsText(file):
     f.close()
     return count
 
-def countCharsText(file):
+# count no. of characters
+def countChars(file):
     f = open(file, 'r')
     count = 0
     line = f.readline()
@@ -32,78 +34,7 @@ def countCharsText(file):
     f.close()
     return count
 
-
-def countLinesPDF(file):
-    f = PdfReader(file)
-    count = 0
-    for page in f.pages:
-        dat = page.extract_text().split('.')
-        dat.pop()
-        count += len(dat)
-    return count
-
-def countWordsPDF(file):
-    f = PdfReader(file)
-    count = 0
-    for page in f.pages:
-        dat = page.extract_text().split(' ')
-        for i in dat:
-            if i != '':
-                count += 1
-    return count
-
-def countCharsPDF(file):
-    f = PdfReader(file)
-    count = 0
-    for page in f.pages:
-        dat = page.extract_text()
-        for i in dat:
-            if i.isalnum():
-                count += 1
-    return count
-
-
-def countLinesDOCX(file):
-    f = Document(file)
-    count = 0
-    for para in f.paragraphs:
-        dat = para.text.split('.')
-        dat.pop()
-        count += len(dat)
-    return count
-
-def countWordsDOCX(file):
-    f = Document(file)
-    count = 0
-    for para in f.paragraphs:
-        dat = para.text.split(' ')
-        for i in dat:
-            if i != '':
-                count += 1
-    return count
-
-def countCharsDOCX(file):
-    f = Document(file)
-    count = 0
-    for para in f.paragraphs:
-        dat = para.text
-        for i in dat:
-            if i.isalnum():
-                count += 1
-    return count
-
-if __name__ == '__main__':
-    # Text File
-    print("No. of Sentences = ", countLinesText(r"../Files/data.txt"))
-    print("No. of Words = ", countWordsText(r"../Files/data.txt"))
-    print("No. of Characters = ", countCharsText(r"../Files/data.txt"))
-
-    # PDF File
-    print("\nNo. of Sentences = ", countLinesPDF(r"../Files/data.pdf"))
-    print("No. of Words = ", countWordsPDF(r"../Files/data.pdf"))
-    print("No. of Characters = ", countCharsPDF(r"../Files/data.pdf"))
-
-    # DOCX File
-    print("\nNo. of Sentences = ", countLinesDOCX(r"../Files/data.docx"))
-    print("No. of Words = ", countWordsDOCX(r"../Files/data.docx"))
-    print("No. of Characters = ", countCharsDOCX(r"../Files/data.docx"))
+print('\nReading from ".txt" file.')
+print('No. of Sentences = ', countLines(r'../Files/data.txt'))
+print('No. of Words = ', countWords(r'../Files/data.txt'))
+print('No. of Characters = ', countChars(r'../Files/data.txt'))
